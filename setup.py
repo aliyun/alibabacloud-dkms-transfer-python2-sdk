@@ -19,7 +19,7 @@ AUTHOR_EMAIL = "sdk-team@alibabacloud.com"
 URL = "https://github.com/aliyun/alibabacloud-dkms-transfer-python2-sdk"
 VERSION = "0.0.1"
 REQUIRES = [
-    "alibabacloud_dkms_gcs_python2>=0.0.1",
+    "alibabacloud_dkms_gcs_python2>=0.0.5",
     'aliyun_python_sdk_core>=2.13.30',
     'aliyun_python_sdk_kms>=2.14.0',
 ]

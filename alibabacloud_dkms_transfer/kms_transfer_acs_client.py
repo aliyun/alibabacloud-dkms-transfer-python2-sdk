@@ -13,6 +13,7 @@ from alibabacloud_dkms_transfer.handlers.generate_data_key_transfer_handler impo
 from alibabacloud_dkms_transfer.handlers.generate_data_key_without_plaintext_transfer_handler import \
     GenerateDataKeyWithoutPlaintextTransferHandler
 from alibabacloud_dkms_transfer.handlers.get_public_key_transfer_handler import GetPublicKeyTransferHandler
+from alibabacloud_dkms_transfer.handlers.get_secret_value_transfer_handler import GetSecretValueTransferHandler
 from alibabacloud_dkms_transfer.utils.consts import *
 
 
@@ -74,6 +75,7 @@ class KmsTransferAcsClient(AcsClient):
             self.client,
             GENERATE_DATA_KEY_WITHOUT_PLAINTEXT_API_NAME)
         self.handlers[GET_PUBLIC_KEY_API_NAME] = GetPublicKeyTransferHandler(self.client, GET_PUBLIC_KEY_API_NAME)
+        self.handlers[GET_SECRET_VALUE_API_NAME] = GetSecretValueTransferHandler(self.client, GET_SECRET_VALUE_API_NAME)
 
     def _implementation_of_do_action(self, request, signer=None):
         if self.handlers.__contains__(request.get_action_name()):
