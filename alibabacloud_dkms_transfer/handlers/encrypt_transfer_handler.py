@@ -16,6 +16,8 @@ class EncryptTransferHandler(KmsTransferHandler):
         self.client = client
         self.action = action
         self.response_headers = [consts.MIGRATION_KEY_VERSION_ID_KEY]
+        self.accept_format = "JSON"
+        self.xml_root = "KMS"
 
     def get_client(self):
         return self.client
@@ -24,6 +26,7 @@ class EncryptTransferHandler(KmsTransferHandler):
         return self.action
 
     def build_dkms_request(self, request, runtime_options):
+        self.accept_format = request.get_accept_format()
         if not request.get_Plaintext():
             raise get_missing_parameter_client_exception("Plaintext")
         encrypt_dkms_request = EncryptRequest()
@@ -38,13 +41,12 @@ class EncryptTransferHandler(KmsTransferHandler):
         return self.client.encrypt_with_options(dkms_request, runtime_options)
 
     def transfer_response(self, response):
-
         response_headers = response.response_headers
-        version_id = response_headers.get(consts.MIGRATION_KEY_VERSION_ID_KEY)
-        if not response_headers or not version_id:
+        key_version_id = response_headers.get(consts.MIGRATION_KEY_VERSION_ID_KEY)
+        if not response_headers or not key_version_id:
             raise ClientException("",
                                   "Can not found response headers parameter[%s]" % consts.MIGRATION_KEY_VERSION_ID_KEY)
-        ciphertext_blob = version_id.encode("utf-8") + response.iv + response.ciphertext_blob
+        ciphertext_blob = key_version_id.encode("utf-8") + response.iv + response.ciphertext_blob
         body = {"KeyId": response.key_id, "CiphertextBlob": base64.b64encode(ciphertext_blob).decode("utf-8"),
-                "RequestId": response.request_id, "KeyVersionId": None}
-        return codes.OK, None, dict_to_body(body), None
+                "RequestId": response.request_id, "KeyVersionId": key_version_id}
+        return codes.OK, None, dict_to_body(body, self.accept_format, self.xml_root), None

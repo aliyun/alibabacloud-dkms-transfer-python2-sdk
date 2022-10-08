@@ -7,7 +7,7 @@ Alibaba Cloud Dedicated KMS Transfer SDK for Python2 can help Python
 developers to migrate from the KMS keys to the Dedicated KMS keys.
 
 *Read this in other
-languages:*\ `English <README.md>`__\ *,*\ `简体中文 <README.zh-cn.md>`__
+languages:*\ `English <README.rst>`__\ *,*\ `简体中文 <README.zh-cn.rst>`__
 
 -  `Alibaba Cloud Dedicated KMS
    Homepage <https://www.alibabacloud.com/help/zh/doc-detail/311016.htm>`__
