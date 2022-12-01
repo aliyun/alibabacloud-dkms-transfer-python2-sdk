@@ -40,6 +40,23 @@ SDK可以帮助Python开发者快速完成由KMS密钥向专属KMS密钥迁移�
 
    pip install alibabacloud-dkms-transfer-python2
 
+
+客户端机制
+----------
+
+阿里云专属KMS适配Python SDK默认将下面列表方法请求转发给专属KMS VPC网关。
+
+-  Encrypt
+-  Decrypt
+-  GenerateDataKey
+-  GenerateDataKeyWithoutPlaintext
+-  GetPublicKey
+-  AsymmetricEncrypt
+-  AsymmetricDecrypt
+-  AsymmetricSign
+-  AsymmetricVerify
+-  GetSecretValue
+
 .. _许可证-1:
 
 许可证

@@ -48,6 +48,6 @@ class DecryptTransferHandler(KmsTransferHandler):
     def transfer_response(self, response):
         response_headers = response.response_headers
         key_version_id = response_headers.get(consts.MIGRATION_KEY_VERSION_ID_KEY)
-        body = {"KeyId": response.key_id, "Plaintext": base64.b64encode(response.plaintext).decode("utf-8"),
+        body = {"KeyId": response.key_id, "Plaintext": response.plaintext.decode("utf-8"),
                 "RequestId": response.request_id, "KeyVersionId": key_version_id}
         return codes.OK, None, dict_to_body(body, self.accept_format, self.xml_root), None

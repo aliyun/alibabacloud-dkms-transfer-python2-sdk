@@ -53,6 +53,21 @@ Install
 
    pip install alibabacloud-dkms-transfer-python2
 
+Client Mechanism
+----------------
+Alibaba Cloud Dedicated KMS Transfer SDK for Python transfers the the following method of request to dedicated KMS vpc gateway by default.
+
+-  Encrypt
+-  Decrypt
+-  GenerateDataKey
+-  GenerateDataKeyWithoutPlaintext
+-  GetPublicKey
+-  AsymmetricEncrypt
+-  AsymmetricDecrypt
+-  AsymmetricSign
+-  AsymmetricVerify
+-  GetSecretValue
+
 .. _license-1:
 
 License

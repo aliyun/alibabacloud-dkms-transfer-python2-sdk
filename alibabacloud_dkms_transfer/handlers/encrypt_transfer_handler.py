@@ -31,7 +31,7 @@ class EncryptTransferHandler(KmsTransferHandler):
             raise get_missing_parameter_client_exception("Plaintext")
         encrypt_dkms_request = EncryptRequest()
         encrypt_dkms_request.key_id = request.get_KeyId()
-        encrypt_dkms_request.plaintext = base64.b64decode(request.get_Plaintext())
+        encrypt_dkms_request.plaintext = request.get_Plaintext().encode("utf-8")
         if request.get_EncryptionContext():
             encrypt_dkms_request.aad = request.get_EncryptionContext().encode("utf-8")
         return encrypt_dkms_request
