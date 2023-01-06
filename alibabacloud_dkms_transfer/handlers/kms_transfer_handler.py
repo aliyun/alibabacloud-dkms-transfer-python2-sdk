@@ -54,7 +54,7 @@ def transfer_tea_unretryable_exception(e):
 
 
 def dict_to_body(dic, accept_format, tag):
-    if accept_format.upper() == "XML":
+    if accept_format is not None and accept_format.upper() == "XML":
         xml_str = parseString(tostring(dict_to_xml(dic, Element(tag), tag))).toprettyxml()
         if xml_str.startswith('<?xml version="1.0" ?>\n'):
             xml_str = xml_str[23:]

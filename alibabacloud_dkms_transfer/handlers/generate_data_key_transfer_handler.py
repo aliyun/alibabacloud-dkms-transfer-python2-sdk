@@ -3,7 +3,7 @@ import base64
 
 from aliyunsdkcore.acs_exception.exceptions import ClientException
 from aliyunsdkcore.vendored.requests import codes
-from sdk.models import GenerateDataKeyRequest
+from sdk.models import GenerateDataKeyRequest, EncryptRequest
 
 from alibabacloud_dkms_transfer.handlers.kms_transfer_handler import dict_to_body, \
     KmsTransferHandler, INVALID_PARAM_ERROR_CODE, \
@@ -46,7 +46,18 @@ class GenerateDataKeyTransferHandler(KmsTransferHandler):
 
     def call_dkms(self, dkms_request, runtime_options):
         runtime_options.response_headers = self.response_headers
-        return self.client.generate_data_key_with_options(dkms_request, runtime_options)
+        generate_data_key_response = self.client.generate_data_key_with_options(dkms_request, runtime_options)
+
+        encrypt_request = EncryptRequest()
+        encrypt_request.key_id = dkms_request.key_id
+        encrypt_request.plaintext = base64.b64encode(generate_data_key_response.plaintext)
+        encrypt_request.aad = dkms_request.aad
+        encrypt_response = self.client.encrypt_with_options(encrypt_request, runtime_options)
+
+        generate_data_key_response.response_headers = encrypt_response.response_headers
+        generate_data_key_response.ciphertext_blob = encrypt_response.ciphertext_blob
+        generate_data_key_response.iv = encrypt_response.iv
+        return generate_data_key_response
 
     def transfer_response(self, response):
         response_headers = response.response_headers
