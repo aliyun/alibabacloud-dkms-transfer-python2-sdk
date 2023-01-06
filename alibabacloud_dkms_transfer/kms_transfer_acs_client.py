@@ -80,8 +80,7 @@ class KmsTransferAcsClient(AcsClient):
     def _implementation_of_do_action(self, request, signer=None):
         if self.handlers.__contains__(request.get_action_name()):
             return self.dispatch_dkms_action(request)
-        return super(KmsTransferAcsClient,
-                     self)._implementation_of_do_action(request, signer)
+        return super(KmsTransferAcsClient, self)._implementation_of_do_action(request, signer)
 
     def dispatch_dkms_action(self, request):
         runtime_options = RuntimeOptions()

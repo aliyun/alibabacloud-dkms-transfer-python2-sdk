@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from aliyunsdkcore.auth.credentials import AccessKeyCredential
 from aliyunsdkcore.client import AcsClient
 from aliyunsdkkms.request.v20160120.GenerateDataKeyRequest import GenerateDataKeyRequest
@@ -12,7 +14,7 @@ def transfer_sdk_generate_data_key():
     config.client_key_file = "<your-client-key-file-path>"
     config.password = "<your-password>"
     config.endpoint = "<your-endpoint>"
-    credentials = AccessKeyCredential('<your-access-key-id>', '<your-access-key-secret>')
+    credentials = AccessKeyCredential(os.getenv('ACCESS_KEY_ID'), os.getenv('ACCESS_KEY_SECRET'))
     # verify可以设置为: 1.False (忽略ssl验证) 2.ca证书路径
     client = KmsTransferAcsClient(config, credential=credentials, verify='<your-ca-certificate-file-path>')
     request = GenerateDataKeyRequest()
@@ -22,7 +24,7 @@ def transfer_sdk_generate_data_key():
 
 
 def kms_sdk_generate_data_key():
-    credentials = AccessKeyCredential('<your-access-key-id>', '<your-access-key-secret>')
+    credentials = AccessKeyCredential(os.getenv('ACCESS_KEY_ID'), os.getenv('ACCESS_KEY_SECRET'))
     # use STS Token
     # credentials = StsTokenCredential('<your-access-key-id>', '<your-access-key-secret>', '<your-sts-token>')
     client = AcsClient(region_id="<your-region-id>", credential=credentials)
