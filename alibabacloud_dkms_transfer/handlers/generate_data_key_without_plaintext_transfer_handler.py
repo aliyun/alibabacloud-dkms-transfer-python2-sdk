@@ -7,7 +7,7 @@ from sdk.models import GenerateDataKeyRequest, EncryptRequest
 
 from alibabacloud_dkms_transfer.handlers.kms_transfer_handler import dict_to_body, \
     KmsTransferHandler, INVALID_PARAM_ERROR_CODE, \
-    INVALID_PARAMETER_KEY_SPEC_ERROR_MESSAGE
+    INVALID_PARAMETER_KEY_SPEC_ERROR_MESSAGE, encode_user_encryption_context
 from alibabacloud_dkms_transfer.utils import consts
 
 
@@ -41,7 +41,8 @@ class GenerateDataKeyWithoutPlaintextTransferHandler(KmsTransferHandler):
                 raise ClientException(INVALID_PARAM_ERROR_CODE, INVALID_PARAMETER_KEY_SPEC_ERROR_MESSAGE)
         generate_data_key_without_plaintext_dkms_request.number_of_bytes = number_of_bytes
         if request.get_EncryptionContext():
-            generate_data_key_without_plaintext_dkms_request.aad = request.get_EncryptionContext().encode("utf-8")
+            generate_data_key_without_plaintext_dkms_request.aad = encode_user_encryption_context(
+                request.get_EncryptionContext())
         return generate_data_key_without_plaintext_dkms_request
 
     def call_dkms(self, dkms_request, runtime_options):

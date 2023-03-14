@@ -33,6 +33,8 @@ class AsymmetricSignTransferHandler(KmsTransferHandler):
         sign_dkms_request.message = base64.b64decode(request.get_Digest())
         sign_dkms_request.algorithm = request.get_Algorithm()
         sign_dkms_request.message_type = consts.DIGEST_MESSAGE_TYPE
+        if request.get_KeyVersionId() is not None:
+            sign_dkms_request.request_headers = {consts.MIGRATION_KEY_VERSION_ID_KEY: request.get_KeyVersionId()}
         return sign_dkms_request
 
     def call_dkms(self, dkms_request, runtime_options):

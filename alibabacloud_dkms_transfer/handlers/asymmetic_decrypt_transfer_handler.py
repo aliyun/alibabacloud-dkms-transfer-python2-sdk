@@ -32,6 +32,8 @@ class AsymmetricDecryptTransferHandler(KmsTransferHandler):
         decrypt_dkms_request.ciphertext_blob = base64.b64decode(request.get_CiphertextBlob())
         decrypt_dkms_request.key_id = request.get_KeyId()
         decrypt_dkms_request.algorithm = request.get_Algorithm()
+        if request.get_KeyVersionId() is not None:
+            decrypt_dkms_request.request_headers = {consts.MIGRATION_KEY_VERSION_ID_KEY: request.get_KeyVersionId()}
         return decrypt_dkms_request
 
     def call_dkms(self, dkms_request, runtime_options):

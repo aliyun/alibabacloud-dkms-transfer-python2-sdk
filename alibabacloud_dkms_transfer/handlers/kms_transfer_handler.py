@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import abc
+import hashlib
 import json
+from xml.dom.minidom import parseString
+from xml.etree.ElementTree import Element, SubElement, tostring
 
 from Tea.exceptions import TeaException, UnretryableException
+
 from alibabacloud_dkms_transfer.utils.consts import *
 from alibabacloud_dkms_transfer.utils.kms_error_code_transfer_utils import *
-
-from xml.etree.ElementTree import Element, SubElement, tostring
-from xml.dom.minidom import parseString
 
 
 def get_missing_parameter_client_exception(param_name):
@@ -118,3 +119,21 @@ class KmsTransferHandler(object):
     @abc.abstractmethod
     def call_dkms(self, dkms_request, runtime_options):
         pass
+
+
+def encode_user_encryption_context(context):
+    context_dict = json.loads(context)
+    keys = []
+    for k, v in context_dict.items():
+        if v is not None:
+            keys.append(k)
+    keys.sort()
+    context_string = ''
+    keys_len = len(keys)
+    for i, key in enumerate(keys):
+        context_string += key + '=' + context_dict[key]
+        if i < keys_len - 1:
+            context_string += '&'
+    sha_256 = hashlib.sha256()
+    sha_256.update(context_string.encode(encoding='utf-8'))
+    return sha_256.digest()
