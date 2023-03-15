@@ -32,6 +32,8 @@ class AsymmetricEncryptTransferHandler(KmsTransferHandler):
         encrypt_dkms_request.key_id = request.get_KeyId()
         encrypt_dkms_request.plaintext = base64.b64decode(request.get_Plaintext())
         encrypt_dkms_request.algorithm = request.get_Algorithm()
+        if request.get_KeyVersionId() is not None:
+            encrypt_dkms_request.request_headers = {consts.MIGRATION_KEY_VERSION_ID_KEY: request.get_KeyVersionId()}
         return encrypt_dkms_request
 
     def call_dkms(self, dkms_request, runtime_options):

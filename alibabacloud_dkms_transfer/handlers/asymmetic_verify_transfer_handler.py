@@ -36,6 +36,8 @@ class AsymmetricVerifyTransferHandler(KmsTransferHandler):
         verify_dkms_request.algorithm = request.get_Algorithm()
         verify_dkms_request.message_type = consts.DIGEST_MESSAGE_TYPE
         verify_dkms_request.signature = base64.b64decode(request.get_Value())
+        if request.get_KeyVersionId() is not None:
+            verify_dkms_request.request_headers = {consts.MIGRATION_KEY_VERSION_ID_KEY: request.get_KeyVersionId()}
         return verify_dkms_request
 
     def call_dkms(self, dkms_request, runtime_options):

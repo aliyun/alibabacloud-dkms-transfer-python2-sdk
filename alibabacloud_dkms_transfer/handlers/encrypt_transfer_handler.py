@@ -6,7 +6,7 @@ from aliyunsdkcore.vendored.requests import codes
 from sdk.models import EncryptRequest
 
 from alibabacloud_dkms_transfer.handlers.kms_transfer_handler import dict_to_body, \
-    get_missing_parameter_client_exception, KmsTransferHandler
+    get_missing_parameter_client_exception, KmsTransferHandler, encode_user_encryption_context
 from alibabacloud_dkms_transfer.utils import consts
 
 
@@ -37,7 +37,7 @@ class EncryptTransferHandler(KmsTransferHandler):
         else:
             encrypt_dkms_request.plaintext = plaintext
         if request.get_EncryptionContext():
-            encrypt_dkms_request.aad = request.get_EncryptionContext().encode("utf-8")
+            encrypt_dkms_request.aad = encode_user_encryption_context(request.get_EncryptionContext())
         return encrypt_dkms_request
 
     def call_dkms(self, dkms_request, runtime_options):
