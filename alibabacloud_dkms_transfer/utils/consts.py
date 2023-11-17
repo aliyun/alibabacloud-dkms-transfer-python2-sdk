@@ -20,3 +20,6 @@ HTTP_CODE_KEY_NAME = "httpCode"
 MIGRATION_KEY_VERSION_ID_KEY = "x-kms-migrationkeyversionid"
 NUMBER_OF_BYTES_AES_256 = 32
 NUMBER_OF_BYTES_AES_128 = 16
+SDK_NAME = "alibabacloud-dkms-transfer-python2-sdk"
+SDK_VERSION = "0.1.2"
+SDK_USER_AGENT = SDK_NAME + "/" + SDK_VERSION

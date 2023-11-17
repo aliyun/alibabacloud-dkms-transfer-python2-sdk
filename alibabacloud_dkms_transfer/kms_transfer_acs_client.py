@@ -59,6 +59,7 @@ class KmsTransferAcsClient(AcsClient, object):
         else:
             self.is_use_kms_share_gateway = False
             self.handlers = dict()
+            self.set_user_agent(config)
             self.client = Client(config)
             self.init_kms_transfer_handlers()
 
@@ -93,3 +94,9 @@ class KmsTransferAcsClient(AcsClient, object):
         else:
             runtime_options.verify = self.get_verify()
         return self.handlers.get(request.get_action_name()).handler_dkms_request_with_options(request, runtime_options)
+
+    def set_user_agent(self, config):
+        if config.user_agent is not None:
+            config.user_agent = config.user_agent + " " + SDK_USER_AGENT
+        else:
+            config.user_agent = SDK_USER_AGENT
