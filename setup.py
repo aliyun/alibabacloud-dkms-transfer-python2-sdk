@@ -17,11 +17,12 @@ DESCRIPTION = "Alibaba Cloud Dedicated KMS Transfer SDK for Python2"
 AUTHOR = "Alibaba Cloud SDK"
 AUTHOR_EMAIL = "sdk-team@alibabacloud.com"
 URL = "https://github.com/aliyun/alibabacloud-dkms-transfer-python2-sdk"
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 REQUIRES = [
-    "alibabacloud_dkms_gcs_python2==1.0.3",
+    "alibabacloud_dkms_gcs_python2==1.0.4",
     'aliyun_python_sdk_core>=2.13.30',
     'aliyun_python_sdk_kms>=2.14.0',
+    'cryptography<=3.3.2',
 ]
 
 LONG_DESCRIPTION = ''
