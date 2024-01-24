@@ -5,7 +5,8 @@ from aliyunsdkcore.vendored.requests import codes
 from sdk.models import DecryptRequest
 
 from alibabacloud_dkms_transfer.handlers.kms_transfer_handler import dict_to_body, \
-    get_missing_parameter_client_exception, KmsTransferHandler, encode_user_encryption_context
+    get_missing_parameter_client_exception, KmsTransferHandler, encode_user_encryption_context, \
+    get_invalid_parameter_client_exception
 from alibabacloud_dkms_transfer.utils import consts
 
 
@@ -29,6 +30,8 @@ class DecryptTransferHandler(KmsTransferHandler):
         if not request.get_CiphertextBlob():
             raise get_missing_parameter_client_exception("CiphertextBlob")
         ciphertext_blob_bytes = base64.b64decode(request.get_CiphertextBlob())
+        if len(ciphertext_blob_bytes) <= consts.EKT_ID_LENGTH + consts.GCM_IV_LENGTH:
+            raise get_invalid_parameter_client_exception("CiphertextBlob")
         ekt_id_bytes = ciphertext_blob_bytes[0:consts.EKT_ID_LENGTH]
         iv_bytes = ciphertext_blob_bytes[consts.EKT_ID_LENGTH:consts.EKT_ID_LENGTH + consts.GCM_IV_LENGTH]
         ciphertext_bytes = ciphertext_blob_bytes[consts.EKT_ID_LENGTH + consts.GCM_IV_LENGTH:]

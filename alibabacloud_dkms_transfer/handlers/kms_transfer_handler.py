@@ -16,6 +16,11 @@ def get_missing_parameter_client_exception(param_name):
                            ("The parameter  %s  needed but no provided." % param_name))
 
 
+def get_invalid_parameter_client_exception(param_name):
+    return ClientException(INVALID_PARAMETER_ERROR_CODE,
+                           ("The parameter  %s  is invalid." % param_name))
+
+
 def transfer_tea_exception(e):
     data = e.data
     request_id = ""
